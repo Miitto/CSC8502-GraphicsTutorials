@@ -2,5 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Tutorial6.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Robot.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Robot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Shaders\scene.frag.glsl" />
+    <None Include="..\Shaders\scene.vert.glsl" />
   </ItemGroup>
 </Project>

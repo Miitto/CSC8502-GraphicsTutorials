@@ -32,6 +32,8 @@
     <ClCompile Include="Window.cpp">
       <Filter>Windows and Input</Filter>
     </ClCompile>
+    <ClCompile Include="SceneNode.cpp" />
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -75,6 +77,8 @@
     <ClInclude Include="InputDevice.h">
       <Filter>Windows and Input</Filter>
     </ClInclude>
+    <ClInclude Include="SceneNode.h" />
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GLAD">
@@ -85,6 +89,9 @@
     </Filter>
     <Filter Include="Windows and Input">
       <UniqueIdentifier>{4a13117a-c481-4385-bd9e-1acd65146a21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{566b65d1-c144-4ea4-9727-bfae1e718fbe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

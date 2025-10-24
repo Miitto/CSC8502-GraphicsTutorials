@@ -96,6 +96,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -130,7 +131,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Robot.cpp" />
     <ClCompile Include="Tutorial6.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Robot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Shaders\scene.frag.glsl" />
+    <None Include="..\Shaders\scene.vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
