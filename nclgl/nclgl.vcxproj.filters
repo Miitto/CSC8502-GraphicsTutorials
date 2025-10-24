@@ -32,8 +32,13 @@
     <ClCompile Include="Window.cpp">
       <Filter>Windows and Input</Filter>
     </ClCompile>
-    <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="SceneNode.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -77,8 +82,19 @@
     <ClInclude Include="InputDevice.h">
       <Filter>Windows and Input</Filter>
     </ClInclude>
-    <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Frustum.h">
+      <Filter>Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneNode.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GLAD">
@@ -90,8 +106,8 @@
     <Filter Include="Windows and Input">
       <UniqueIdentifier>{4a13117a-c481-4385-bd9e-1acd65146a21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NewFilter1">
-      <UniqueIdentifier>{566b65d1-c144-4ea4-9727-bfae1e718fbe}</UniqueIdentifier>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{fa567d5b-bf92-4ca6-9102-143c7f3af0f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

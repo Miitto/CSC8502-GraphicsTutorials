@@ -28,6 +28,7 @@ namespace renderer {
       inline void SetScale(const Vector3& scale) { m_scale = scale; }
       inline void SetColor(const Vector4& color) { m_color = color; }
 
+      void SetParent(Node* parent) { m_parent = parent; }
       inline bool HasParent() const { return m_parent != nullptr; }
       inline const Node& GetParent() const { return *m_parent; }
       inline Node& GetParent() { return *m_parent; }
@@ -36,9 +37,24 @@ namespace renderer {
       inline const Vector4& GetColor() const { return m_color; }
 
       void AddChild(const std::shared_ptr<Node>& child);
+      void UpdateBoundingRadius();
 
       virtual void Update(float dt);
-      virtual void Draw(const OGLRenderer& r);
+      virtual void Draw(const OGLRenderer& r, Shader& shader);
+
+      inline float GetBoundingRadius() const { return m_boundingRadius; }
+      inline void SetBoundingRadius(float radius) { m_boundingRadius = radius; }
+      inline float GetCameraDistance() const { return m_cameraDistance; }
+      inline void SetCameraDistance(float distance) {
+        m_cameraDistance = distance;
+      }
+
+      inline void SetTexture(GLuint tex) { m_texture = tex; }
+      inline GLuint GetTexture() const { return m_texture; }
+
+      static inline bool CompareByCameraDistance(const Node& a, const Node& b) {
+        return a.GetCameraDistance() < b.GetCameraDistance();
+      }
 
       std::vector<std::shared_ptr<Node>>& GetChildren() { return m_children; }
       std::vector<std::shared_ptr<Node>>::iterator begin() {
@@ -61,14 +77,16 @@ namespace renderer {
       }
 
     protected:
-      void SetParent(Node* parent) { m_parent = parent; }
-
       Node* m_parent = nullptr;
       Transforms m_transforms = {};
       std::shared_ptr<Mesh> m_mesh = nullptr;
       Vector3 m_scale = {};
       Vector4 m_color = {};
       std::vector<std::shared_ptr<Node>> m_children = {};
+
+      float m_cameraDistance = 0.0f;
+      float m_boundingRadius = 1.0f;
+      GLuint m_texture = 0;
     };
   } // namespace scene
 } // namespace renderer

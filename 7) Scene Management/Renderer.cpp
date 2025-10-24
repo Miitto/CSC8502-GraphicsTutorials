@@ -17,9 +17,8 @@ Renderer::Renderer(Window& parent)
 
   camera.SetPosition({0, 30, 175});
 
-  graph = std::make_unique<renderer::scene::Graph>();
-  auto robot = std::make_shared<Robot>(cube);
-  graph->AddChild(robot);
+  root = std::make_unique<renderer::scene::Node>();
+  root->AddChild(std::make_shared<Robot>(cube));
 
   glEnable(GL_DEPTH_TEST);
   init = true;
@@ -32,12 +31,29 @@ void Renderer::RenderScene() {
   UpdateShaderMatrices();
   glUniform1i(glGetUniformLocation(shader->GetProgram(), "diffuseTex"), 1);
 
-  auto nodeList = graph->BuildNodeLists(camera);
-  nodeList.Draw(*this, *shader);
+  DrawNode(*root);
 }
 
 void Renderer::UpdateScene(float dt) {
   camera.UpdateCamera(dt);
   viewMatrix = camera.BuildViewMatrix();
-  graph->Update(dt);
+  root->Update(dt);
+}
+
+void Renderer::DrawNode(renderer::scene::Node& node) {
+  if (node.GetMesh()) {
+    auto model = node.GetTransforms().world * Matrix4::Scale(node.GetScale());
+    glUniformMatrix4fv(
+        glGetUniformLocation(shader->GetProgram(), "modelMatrix"), 1, false,
+        model.values);
+    glUniform4fv(glGetUniformLocation(shader->GetProgram(), "nodeColor"), 1,
+                 &node.GetColor().x);
+    glUniform1i(glGetUniformLocation(shader->GetProgram(), "useTexture"), 0);
+
+    node.Draw(*this);
+  }
+
+  for (auto& child : node) {
+    DrawNode(*child);
+  }
 }

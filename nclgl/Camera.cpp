@@ -10,6 +10,12 @@ namespace renderer {
   const float MOVE_SPEED = 30.0f;
   const float FAST_MOVE_SPEED = 100.f;
 
+  PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float nearClip,
+                                       float farClip)
+      : Camera(),
+        m_projMatrix(Matrix4::Perspective(nearClip, farClip, aspect, fov)),
+        m_frustum(m_projMatrix * BuildViewMatrix()) {}
+
   void Camera::UpdateCamera(float dt) {
     rotation.pitch -= (Window::GetMouse()->GetRelativePosition().y);
     rotation.yaw -= (Window::GetMouse()->GetRelativePosition().x);
@@ -55,6 +61,11 @@ namespace renderer {
     if (Window::GetKeyboard()->KeyDown(KEYBOARD_R)) {
       rotation = {0.0f, 0.0f};
     }
+  }
+
+  void PerspectiveCamera::UpdateCamera(float dt) {
+    Camera::UpdateCamera(dt);
+    m_frustum = {m_projMatrix * BuildViewMatrix()};
   }
 
   Matrix4 Camera::BuildViewMatrix() const {

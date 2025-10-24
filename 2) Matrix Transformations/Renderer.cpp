@@ -1,6 +1,8 @@
 #include "Renderer.h"
 
-Renderer::Renderer(Window &parent) : OGLRenderer(parent), cam(Camera()) {
+Renderer::Renderer(Window& parent)
+    : OGLRenderer(parent),
+      cam({1.0f, 10000.0f, (float)width / (float)height, 45.f}) {
   triangleMesh = Mesh::GenerateTriangle();
 
   mpShader = new Shader("mp.vert.glsl", "srgb_color.frag.glsl");

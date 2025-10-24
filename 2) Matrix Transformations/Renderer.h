@@ -24,5 +24,5 @@ protected:
   float rotation;
   Vector3 position;
 
-  renderer::Camera cam;
+  renderer::PerspectiveCamera cam;
 };

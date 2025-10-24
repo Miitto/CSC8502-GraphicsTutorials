@@ -7,6 +7,7 @@ namespace renderer::scene {
   void Node::AddChild(const std::shared_ptr<Node>& child) {
     m_children.emplace_back(child);
     child->m_parent = this;
+    child->UpdateBoundingRadius();
   }
 
   void Node::Update(float dt) {
@@ -21,9 +22,31 @@ namespace renderer::scene {
     }
   }
 
-  void Node::Draw(const OGLRenderer& r) {
-    if (m_mesh)
+  void Node::Draw(const OGLRenderer& r, Shader& shader) {
+    if (m_mesh) {
+      auto model = GetTransforms().world * Matrix4::Scale(GetScale());
+      glUniformMatrix4fv(
+          glGetUniformLocation(shader.GetProgram(), "modelMatrix"), 1, false,
+          model.values);
+      glUniform4fv(glGetUniformLocation(shader.GetProgram(), "nodeColor"), 1,
+                   &GetColor().x);
+      glUniform1i(glGetUniformLocation(shader.GetProgram(), "useTexture"), 0);
+
       m_mesh->Draw();
+    }
+
+    for (auto& child : *this) {
+      child->Draw(r, shader);
+    }
+  }
+
+  void Node::UpdateBoundingRadius() {
+    if (!m_parent)
+      return;
+    Vector3 relPos = m_transforms.local.GetPositionVector();
+    m_parent->m_boundingRadius = std::max(m_parent->m_boundingRadius,
+                                          relPos.Length() + m_boundingRadius);
+    m_parent->UpdateBoundingRadius();
   }
 
 } // namespace renderer::scene

@@ -1,4 +1,5 @@
 #pragma once
+#include "Frustum.h"
 #include "Matrix4.h"
 #include "Vector3.h"
 
@@ -17,7 +18,7 @@ namespace renderer {
 
     ~Camera() = default;
 
-    void UpdateCamera(float dt = 1.0f);
+    virtual void UpdateCamera(float dt);
 
     Matrix4 BuildViewMatrix() const;
 
@@ -26,8 +27,25 @@ namespace renderer {
     inline const Rotation& GetRotation() const { return rotation; };
     inline void SetRotation(const Rotation& rot) { rotation = rot; };
 
+    virtual const Frustum& GetFrustum() const = 0;
+
   protected:
     Rotation rotation;
     Vector3 position;
+  };
+
+  class PerspectiveCamera : public Camera {
+  public:
+    PerspectiveCamera(float nearPlane, float farPlane, float aspectRatio,
+                      float fov);
+    ~PerspectiveCamera() = default;
+
+    void UpdateCamera(float dt) override;
+
+    const Frustum& GetFrustum() const override { return m_frustum; };
+
+  protected:
+    Matrix4 m_projMatrix;
+    Frustum m_frustum;
   };
 } // namespace renderer
