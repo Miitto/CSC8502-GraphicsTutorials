@@ -9,10 +9,6 @@
 namespace renderer {
   namespace scene {
     class Node {
-    protected:
-      Node(std::shared_ptr<Node>& me,
-           const std::shared_ptr<Mesh>& mesh = nullptr,
-           Vector4 color = Vector4(1, 1, 1, 1));
 
     public:
       struct Transforms {
@@ -20,12 +16,9 @@ namespace renderer {
         Matrix4 world;
       };
 
-      Node(const Node&) = delete;
+      Node(const std::shared_ptr<Mesh>& mesh = nullptr,
+           Vector4 color = Vector4(1, 1, 1, 1));
       ~Node() = default;
-
-      static std::shared_ptr<Node>&
-      create(const std::shared_ptr<Mesh>& mesh = nullptr,
-             const Vector4& color = Vector4(1, 1, 1, 1));
 
       inline void SetTransform(const Matrix4& matrix) {
         m_transforms.local = matrix;
@@ -35,8 +28,9 @@ namespace renderer {
       inline void SetScale(const Vector3& scale) { m_scale = scale; }
       inline void SetColor(const Vector4& color) { m_color = color; }
 
-      inline const std::shared_ptr<Node>& GetParent() const { return m_parent; }
-      inline std::shared_ptr<Node>& GetParent() { return m_parent; }
+      inline bool HasParent() const { return m_parent != nullptr; }
+      inline const Node& GetParent() const { return *m_parent; }
+      inline Node& GetParent() { return *m_parent; }
       inline const std::shared_ptr<Mesh>& GetMesh() const { return m_mesh; }
       inline const Vector3& GetScale() const { return m_scale; }
       inline const Vector4& GetColor() const { return m_color; }
@@ -67,8 +61,9 @@ namespace renderer {
       }
 
     protected:
-      std::shared_ptr<Node>& m_me;
-      std::shared_ptr<Node> m_parent = nullptr;
+      void SetParent(Node* parent) { m_parent = parent; }
+
+      Node* m_parent = nullptr;
       Transforms m_transforms = {};
       std::shared_ptr<Mesh> m_mesh = nullptr;
       Vector3 m_scale = {};

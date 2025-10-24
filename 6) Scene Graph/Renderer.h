@@ -14,7 +14,7 @@ public:
   void DrawNode(renderer::scene::Node& node);
 
 protected:
-  std::shared_ptr<Robot> robot;
+  std::unique_ptr<renderer::scene::Node> root;
   std::unique_ptr<Shader> shader;
   renderer::Camera camera = {};
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Rendering/Camera.h"
+#include "../nclgl/Camera.h"
 #include "../nclgl/OGLRenderer.h"
 
 class Renderer : public OGLRenderer {
@@ -24,5 +24,5 @@ protected:
   float rotation;
   Vector3 position;
 
-  Camera cam;
+  renderer::Camera cam;
 };

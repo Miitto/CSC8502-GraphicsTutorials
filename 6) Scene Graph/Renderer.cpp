@@ -6,6 +6,7 @@ Renderer::Renderer(Window& parent) : OGLRenderer(parent) {
   shader = std::make_unique<Shader>("scene.vert.glsl", "scene.frag.glsl");
 
   if (!shader->LoadSuccess()) {
+    shader.reset();
     return;
   }
 
@@ -14,7 +15,8 @@ Renderer::Renderer(Window& parent) : OGLRenderer(parent) {
 
   camera.SetPosition({0, 30, 175});
 
-  robot = Robot::create(cube);
+  root = std::make_unique<renderer::scene::Node>();
+  root->AddChild(std::make_shared<Robot>(cube));
 
   glEnable(GL_DEPTH_TEST);
   init = true;
@@ -22,18 +24,18 @@ Renderer::Renderer(Window& parent) : OGLRenderer(parent) {
 
 void Renderer::RenderScene() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  BindShader(nullptr);
+  BindShader(shader.get());
 
   UpdateShaderMatrices();
   glUniform1i(glGetUniformLocation(shader->GetProgram(), "diffuseTex"), 1);
 
-  DrawNode(*robot);
+  DrawNode(*root);
 }
 
 void Renderer::UpdateScene(float dt) {
   camera.UpdateCamera(dt);
   viewMatrix = camera.BuildViewMatrix();
-  robot->Update(dt);
+  root->Update(dt);
 }
 
 void Renderer::DrawNode(renderer::scene::Node& node) {
