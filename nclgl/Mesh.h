@@ -19,6 +19,7 @@ _-_-_-_-_-_-_-""  ""
 #pragma once
 
 #include "OGLRenderer.h"
+#include "Vector2.h"
 #include <string>
 #include <vector>
 
@@ -54,6 +55,7 @@ public:
 
   static Mesh *LoadFromMeshFile(const std::string &name);
   static Mesh *GenerateTriangle();
+  static Mesh *GenerateQuad();
 
   unsigned int GetTriCount() const {
     int primCount = indices ? numIndices : numVertices;
